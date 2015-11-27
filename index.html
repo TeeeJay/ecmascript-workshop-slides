@@ -41,43 +41,181 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
-					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
-					</p>
+					<h1>ECMAScript Workshop</h1>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
+					<h2>Today</h2>
+					<ul>
+						<li>Modules</li>
+						<li>Classes</li>
+					</ul>
 				</section>
 
-				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
+						<h1>Modules</h1>
 					</section>
 					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
+						<h2>Benefits</h2>
+						<p>
+
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Classes</h1>
 					</section>
 					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="transform: rotate(180deg); -webkit-transform: rotate(180deg);">
-						</a>
+						<h2>Benefits</h2>
+						<p>
+							Simpler and clearer syntax to create objects and to deal with inheritance
+						</p>
 					</section>
+					<section>
+						<h2>Syntatical sugar</h2>
+						<p>Classes aren't really 'classes', instead they are functions which are in turn objects</p>
+						<p>It’s important to understand that while JavaScript is an object-oriented language, it is prototype-based and does not implement a traditional class system.</p>
+					</section>
+					<section>
+						<h2>JavaScript Objects</h2>
+						<p>
+							Almost everything in JavaScript are objects (including functions and arrays). Except for primitives:
+						</p>
+						<ul>
+							<li>
+								numbers
+							</li>
+							<li>
+								boolean
+							</li>
+							<li>
+								strings
+							</li>
+							<li>
+								undefined
+							</li>
+							<li>
+								null
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>JavaScript Objects</h2>
+						<p>
+							An object is a collection of properties, and a property is an association between a name (or key) and a value.
+							A property's value can be a function, in which case the property is known as a method.
+					</section>
+					<section>
+						<h2>JavaScript Objects</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+// The easiest way to create an object is like this:
+let myObject = {
+  'key1': "Awesome",
+  'key2': "Object"
+}
+
+// Or:
+function MyObject(value1, value2) {
+  this.key1 = value1;
+  this.key2 = value2;
+}
+var myObject = new MyObject("Awesome", "Object");
+
+myObject.key1; // Get property
+myObject.property = "Value"; // Set property
+myObject.toString(); // Call method
+					</code></pre>
+					</section>
+
+
+					<section>
+					<h2>Classes in ECMAScript 5</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function MyClass (id) {
+     var privateField = "My secret";
+     // Instance property
+     this.id = id;
+}
+
+// Instance method
+MyClass.prototype.myMethod = function () {};
+
+var instance1 = new MyClass(1);
+var instance2 = new MyClass(2);
+instance1.myMethod();
+instance1.id; // 1
+instance2.myMethod();
+instance2.id; // 2
+instance1 instanceof MyClass; // true
+					</code></pre>
+						<p>Prototype methods are shared across all instances of the class. One method, many instances!</p>
+					</section>
+
+					<section>
+					<h2>Why is MyClass a function, shouldn’t it be a class?</h2>
+					<p>
+						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
+					</p>
+				    </section>
+
+					<section>
+					<h2>Prototype</h2>
+					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
+					<p>
+						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
+to make those methods and properties available to instances of that function.
+					</p>
+				    </section>
+
+					<section>
+
+					<h2>Subclasses in ECMAScript 5</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function MySubClass(id) {
+  MyClass.call(this, id);
+}
+
+// Inherit from the parent class
+MySubClass.prototype = Object.create(MyClass.prototype);
+MySubClass.prototype.constructor = MySubClass;
+
+// Child class method
+MySubClass.prototype.myMethod = function() {
+  MyClass.prototype.method.call(this);
+}
+					</code></pre>
+						<p>Easy to read?</p>
+					</section>
+
+					<section>
+					<h2>Classes in ECMAScript 6</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+class MyClass {
+    constructor (id) {
+        this.id = id
+    }
+    myMethod () {}
+}
+let instance = new MyClass(1);
+instance instanceof MyClass; // true
+typeof MyClass // 'function'
+					</code></pre>
+					</section>
+
+					<section>
+					<h2>Subclasses in ECMAScript 6</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+class MySubClass extends MyClass {
+    constructor (id) {
+        super(id)
+    }
+}
+					</code></pre>
+					</section>
+				</section>
 				</section>
 
 				<section>
