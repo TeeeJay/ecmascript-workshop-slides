@@ -132,13 +132,18 @@ var myObject = new MyObject("Awesome", "Object");
 						<h2>Using A JavaScript Object</h2>
 					<pre><code class="hljs" data-trim contenteditable>
 // Get a property
-myObject.key1;
+var value = myObject.key1;
+var value = myObject["key1"];
 
 // Set a property
 myObject.property = "Value";
+myObject["property"] = "Value";
 
 // Call a method
 myObject.toString();
+
+// To find out if a property exists on an object
+'key1' in myObject; // true
 					</code></pre>
 					</section>
 
@@ -214,7 +219,9 @@ class MyClass {
 let instance = new MyClass(1);
 instance instanceof MyClass; // true
 typeof MyClass // 'function'
+MyClass.myStaticMethod()
 					</code></pre>
+						<p>ECMAScript 6 provides the class keyword and compact method notation as syntactic sugar for writing a function and assigning methods to its prototype.</p>
 					</section>
 
 					<section>
