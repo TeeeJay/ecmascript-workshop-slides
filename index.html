@@ -109,13 +109,15 @@
 							A property's value can be a function, in which case the property is known as a method.
 					</section>
 					<section>
-						<h2>JavaScript Objects</h2>
+						<h2>Creating A JavaScript Object</h2>
 					<pre><code class="hljs" data-trim contenteditable>
 // The easiest way to create an object is like this:
-let myObject = {
-  'key1': "Awesome",
-  'key2': "Object"
-}
+let myObject = { 'key1': "Awesome", 'key2': "Object" }
+
+// Or:
+var myObject = Object.create(new Object());
+myObject.key1 = "Awesome";
+myObject.key2 = "Object";
 
 // Or:
 function MyObject(value1, value2) {
@@ -123,13 +125,22 @@ function MyObject(value1, value2) {
   this.key2 = value2;
 }
 var myObject = new MyObject("Awesome", "Object");
-
-myObject.key1; // Get property
-myObject.property = "Value"; // Set property
-myObject.toString(); // Call method
 					</code></pre>
 					</section>
 
+					<section>
+						<h2>Using A JavaScript Object</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+// Get a property
+myObject.key1;
+
+// Set a property
+myObject.property = "Value";
+
+// Call a method
+myObject.toString();
+					</code></pre>
+					</section>
 
 					<section>
 					<h2>Classes in ECMAScript 5</h2>
@@ -155,18 +166,18 @@ instance1 instanceof MyClass; // true
 					</section>
 
 					<section>
-					<h2>Why is MyClass a function, shouldn’t it be a class?</h2>
-					<p>
-						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
-					</p>
-				    </section>
-
-					<section>
 					<h2>Prototype</h2>
 					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
 					<p>
 						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
 to make those methods and properties available to instances of that function.
+					</p>
+				    </section>
+
+					<section>
+					<h2>Why is MyClass a function, shouldn’t it be a class?</h2>
+					<p>
+						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
 					</p>
 				    </section>
 
@@ -198,6 +209,7 @@ class MyClass {
         this.id = id
     }
     myMethod () {}
+    static myStaticMethod() {}
 }
 let instance = new MyClass(1);
 instance instanceof MyClass; // true
@@ -215,6 +227,50 @@ class MySubClass extends MyClass {
 }
 					</code></pre>
 					</section>
+
+					<section>
+					<h2>Code task 3 - Create a class</h2>
+						<p>Create a class equal to the ECMAScript 5 code:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+function Point(x,y) {
+    this.x = x;
+    this.y = y;
+}
+// Static method
+Point.distance = function (a, b) {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return Math.sqrt(dx*dx + dy*dy);
+};
+Point.prototype.toString = function () {
+    return this.x + ' ' + this.y;
+};
+module.exports = Point;
+					</code></pre>
+					</section>
+
+					<section>
+					<h2>Code task 4 - Class inheritance</h2>
+						<p>Extend the Point class from previous task so that it behaves equal to the ECMAScript 5 code below:</p>
+					<pre><code class="hljs" data-trim contenteditable>
+// Child class constructor
+var ColorPoint = function (x, y, color) {
+    Point.call(this, x, y);
+    this.color = color;
+};
+
+// Inherit from the parent class
+ColorPoint.prototype = Object.create(Point.prototype);
+ColorPoint.prototype.constructor = ColorPoint;
+
+// Child class method
+ColorPoint.prototype.getColor = function () {
+    return this.color;
+};
+module.exports = ColorPoint;
+					</code></pre>
+					</section>
+
 				</section>
 				</section>
 
