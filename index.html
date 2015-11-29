@@ -177,13 +177,13 @@ instance1 instanceof MyClass; // true
 					<p>
 						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
 					</p>
-					<p>The "object" is created and assigned to this for the duration of the call to the MyClass function.</p>
-						<p>When you create an object using the new keyword, it creates a new object, passes it in as this to the constructor function.</p>
-						<p>And it is the prototype...</p>
+					<!--<p>The "object" is created and assigned to this for the duration of the call to the MyClass function.</p>-->
+					<p>When you create an object using the new keyword, it creates a new object, passes it in as this to the constructor function.</p>
+					<p>And function's have a prototype...</p>
 				    </section>
 
 					<section>
-					<h2>Function Prototype</h2>
+					<h2>Functions have a prototype</h2>
 					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
 					<p>
 						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
@@ -193,16 +193,17 @@ to make those methods and properties available to instances of that function. Al
 
 					<section>
 						<h2>Prototypal inheritance</h2>
-						<p>In classical languages, like Java, instances are created from classes.
+						<!--<p>In classical languages, like Java, instances are created from classes.
 							JavaScript differs in that it has prototypal inheritance, in which there are no classes.
 							Instead, objects inherit from other objects.
-							</p>
+							</p>-->
+						<p>Objects inherit from other objects.</p>
 					</section>
 
 					<section>
-						<h2>How does prototype work?</h2>
+						<h2>How does prototype inheritance work?</h2>
 						<p>
-							Every object in JavaScript has a special related object called the prototype.
+							Every object in JavaScript has a special related object called the prototype (Objects do not have a prototype property, but they do have a prototype).
 						</p>
 						<pre><code class="hljs" data-trim contenteditable>
 vehicle.__proto__ = machine
@@ -218,9 +219,24 @@ car.__proto__ = vehicle
 					</section>
 
 					<section>
+						<h2>Functions vs objects prototype</h2>
+						<p>An object’s prototype is the object from which it is inheriting properties. </p>
+						<p>A function’s prototype is used as the object to be assigned as the prototype for new objects’ created using this function as a constructor function.</p>
+					</section>
+
+					<section>
+						<h2>Inherited properties vs. native properties</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+instance1.__proto__; // { myMethod: [Function] }
+instance1.hasOwnProperty("id"); // true
+instance1.hasOwnProperty("myMethod"); // false
+					</code></pre>
+					</section>
+
+					<section>
 						<h2>Described by Douglas Crockford</h2>
 						<blockquote>
-							you make prototype objects, and then … make new instances. Objects are mutable in JavaScript, so we can augment the new instances, giving them new fields and methods. These can then act as prototypes for even newer objects. We don't need classes to make lots of similar objects… Objects inherit from objects. What could be more object oriented than that?.
+							you make prototype objects, and then … make new instances. Objects are mutable in JavaScript, so we can augment the new instances, giving them new fields and methods. These can then act as prototypes for even newer objects. We don't need classes to make lots of similar objects… Objects inherit from objects. What could be more object oriented than that?
 						</blockquote>
 					</section>
 
@@ -326,6 +342,7 @@ module.exports = ColorPoint;
 							<li><a href="https://blog.pivotal.io/labs/labs/javascript-constructors-prototypes-and-the-new-keyword">https://blog.pivotal.io/labs/labs/javascript-constructors-prototypes-and-the-new-keyword</a></li>
 							<li><a href="https://www.nczonline.net/blog/2012/10/16/does-javascript-need-classes">https://www.nczonline.net/blog/2012/10/16/does-javascript-need-classes</a></li>
 							<li><a href="http://exploringjs.com/es6/ch_classes.html">http://exploringjs.com/es6/ch_classes.html</a></li>
+							<li><a href="https://www.reinteractive.net/posts/235-es6-classes-and-javascript-prototypes">https://www.reinteractive.net/posts/235-es6-classes-and-javascript-prototypes</a></li>
 						</ul>
 					</section>
 
