@@ -79,6 +79,7 @@
 						<p>Classes aren't really 'classes', instead they are functions which are in turn objects</p>
 						<p>It’s important to understand that while JavaScript is an object-oriented language, it is prototype-based and does not implement a traditional class system.</p>
 					</section>
+
 					<section>
 						<h2>JavaScript Objects</h2>
 						<p>
@@ -126,6 +127,7 @@ function MyObject(value1, value2) {
 }
 var myObject = new MyObject("Awesome", "Object");
 					</code></pre>
+						<p>Which of these alternatives are suited to create multiple instances?</p>
 					</section>
 
 					<section>
@@ -137,7 +139,7 @@ var value = myObject["key1"];
 
 // Set a property
 myObject.property = "Value";
-myObject["property"] = "Value";
+myObject["property with space in it"] = "Value";
 
 // Call a method
 myObject.toString();
@@ -171,23 +173,59 @@ instance1 instanceof MyClass; // true
 					</section>
 
 					<section>
-					<h2>Prototype</h2>
-					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
-					<p>
-						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
-to make those methods and properties available to instances of that function.
-					</p>
-				    </section>
-
-					<section>
 					<h2>Why is MyClass a function, shouldn’t it be a class?</h2>
 					<p>
 						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
 					</p>
+					<p>The "object" is created and assigned to this for the duration of the call to the MyClass function.</p>
+						<p>When you create an object using the new keyword, it creates a new object, passes it in as this to the constructor function.</p>
+						<p>And it is the prototype...</p>
 				    </section>
 
 					<section>
+					<h2>Function Prototype</h2>
+					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
+					<p>
+						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
+to make those methods and properties available to instances of that function. All class instances, past and future, will be affected.
+					</p>
+				    </section>
 
+					<section>
+						<h2>Prototypal inheritance</h2>
+						<p>In classical languages, like Java, instances are created from classes.
+							JavaScript differs in that it has prototypal inheritance, in which there are no classes.
+							Instead, objects inherit from other objects.
+							</p>
+					</section>
+
+					<section>
+						<h2>How does prototype work?</h2>
+						<p>
+							Every object in JavaScript has a special related object called the prototype.
+						</p>
+						<pre><code class="hljs" data-trim contenteditable>
+vehicle.__proto__ = machine
+// machine is the prototype of vehicle
+
+car.__proto__ = vehicle
+// vehicle is the prototype of car
+					</code></pre>
+						<p>This is a prototype chain: car -> vehicle -> machine</p>
+						<p>
+							When looking up a property, Javascript will try to find the property in the object itself. If it does not find it then it tries in it's prototype, and so on.
+						</p>
+					</section>
+
+					<section>
+						<h2>Described by Douglas Crockford</h2>
+						<blockquote>
+							you make prototype objects, and then … make new instances. Objects are mutable in JavaScript, so we can augment the new instances, giving them new fields and methods. These can then act as prototypes for even newer objects. We don't need classes to make lots of similar objects… Objects inherit from objects. What could be more object oriented than that?.
+						</blockquote>
+					</section>
+
+
+					<section>
 					<h2>Subclasses in ECMAScript 5</h2>
 					<pre><code class="hljs" data-trim contenteditable>
 function MySubClass(id) {
@@ -218,10 +256,10 @@ class MyClass {
 }
 let instance = new MyClass(1);
 instance instanceof MyClass; // true
-typeof MyClass // 'function'
+typeof MyClass // 'function' (old-school constructor function)
 MyClass.myStaticMethod()
 					</code></pre>
-						<p>ECMAScript 6 provides the class keyword and compact method notation as syntactic sugar for writing a function and assigning methods to its prototype.</p>
+						<p>The class keyword is syntactical sugar, JavaScript remaining prototype-based!</p>
 					</section>
 
 					<section>
