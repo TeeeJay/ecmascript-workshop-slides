@@ -127,7 +127,7 @@ function MyObject(value1, value2) {
 }
 var myObject = new MyObject("Awesome", "Object");
 					</code></pre>
-						<p>Which of these alternatives are suited to create multiple instances?</p>
+						<p>Which of these alternatives are suited to create multiple instances of same type?</p>
 					</section>
 
 					<section>
@@ -177,10 +177,8 @@ instance1 instanceof MyClass; // true
 					<p>
 						MyClass is a constructor function, and combined with the new keyword, work together to create new objects in much in the same way classes do in other OO languages.
 					</p>
-					<!--<p>The "object" is created and assigned to this for the duration of the call to the MyClass function.</p>-->
 					<p>When you create an object using the new keyword, it creates a new object, passes it in as this to the constructor function.</p>
-					<p>And function's have a prototype...</p>
-				    </section>
+					</section>
 
 					<section>
 					<h2>Functions have a prototype</h2>
@@ -203,7 +201,7 @@ to make those methods and properties available to instances of that function. Al
 					<section>
 						<h2>How does prototype inheritance work?</h2>
 						<p>
-							Every object in JavaScript has a special related object called the prototype (Objects do not have a prototype property, but they do have a prototype).
+							Every object in JavaScript has a special related object called the prototype.
 						</p>
 						<pre><code class="hljs" data-trim contenteditable>
 vehicle.__proto__ = machine
@@ -218,7 +216,7 @@ car.__proto__ = vehicle
 						</p>
 					</section>
 
-					<section>
+					<!--<section>
 						<h2>Functions vs objects prototype</h2>
 						<p>An object’s prototype is the object from which it is inheriting properties. </p>
 						<p>A function’s prototype is used as the object to be assigned as the prototype for new objects’ created using this function as a constructor function.</p>
@@ -238,7 +236,7 @@ instance1.hasOwnProperty("myMethod"); // false
 						<blockquote>
 							you make prototype objects, and then … make new instances. Objects are mutable in JavaScript, so we can augment the new instances, giving them new fields and methods. These can then act as prototypes for even newer objects. We don't need classes to make lots of similar objects… Objects inherit from objects. What could be more object oriented than that?
 						</blockquote>
-					</section>
+					</section>-->
 
 
 					<section>
@@ -273,9 +271,12 @@ class MyClass {
 let instance = new MyClass(1);
 instance instanceof MyClass; // true
 typeof MyClass // 'function' (old-school constructor function)
-MyClass.myStaticMethod()
+MyClass.myStaticMethod();
+darth.hasOwnProperty("myMethod")
+MyClass.prototype.myMethod(); // prototype-based
 					</code></pre>
 						<p>The class keyword is syntactical sugar, JavaScript remaining prototype-based!</p>
+						<p>This is the prototype chain: MyClass -> Object</p>
 					</section>
 
 					<section>
@@ -287,6 +288,7 @@ class MySubClass extends MyClass {
     }
 }
 					</code></pre>
+						<p>This is the prototype chain: MySubClass -> MyClass -> Object</p>
 					</section>
 
 					<section>
