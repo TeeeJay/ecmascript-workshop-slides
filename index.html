@@ -471,6 +471,259 @@ module.exports = ColorPoint;
 					</section>
 
 				</section>
+
+				<section>
+					<section>
+						<h1>Arrow functions</h1>
+						<p>() => {}</p>
+					</section>
+					<section>
+						<h2>Benefits</h2>
+						<ul>
+							<li>
+								function(){...} can now be written as () => {...}
+								<ul>
+									<li>Shorter syntax than using traditional anonymous functions</li>
+								</ul>
+							</li>
+							<li>Lexically binds the <i>this</i> value</li>
+						</ul>
+					</section>
+					<section>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Basic syntax:
+(param1, param2, paramN) => { statements }
+(param1, param2, paramN) => expression
+// equivalent to:  => { return expression; }
+
+// Parentheses are optional when there's only one argument:
+(singleParam) => { statements }
+singleParam => { statements }
+
+// A function with no arguments requires parentheses:
+() => { statements }
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+function(x) { return x+1;}
+
+x => x+1;
+							</code>
+						</pre>
+					</section>
+					<section>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+var a = ["Hydrogen", "Helium", "Lithium", "Beryl­lium"];
+
+var a2 = a.map(function(s){ return s.length });
+var a3 = a.map( s => s.length );
+
+//a2 = [8, 6, 7, 10]
+//a3 = [8, 6, 7, 10]
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Lexically binding this</h2>
+						<p><p>
+						<ul>
+							<li>
+								Javascript uses lexical scope
+								<ul>
+									<li>Like Python, Java ..</li>
+								</ul>
+							</li>
+							<li>Functional scope: var (pre ECMAScript 2015)</li>
+							<li>Block scope: var (pre ECMAScript 2015)</li>
+						</ul>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+function foo(a) {
+	var b = a * 2;
+
+	function bar(c) {
+		console.log( a, b, c );
+	}
+	bar(b * 3);
+}
+
+foo( 2 ); // 2 4 12
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>
+							TODO
+						</p>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+function Person() {
+	// The Person() constructor defines `this` as an instance of itself.
+	this.age = 0;
+
+	setInterval(function growUp() {
+		// In nonstrict mode, the growUp() function defines `this`
+		// as the global object, which is different from the `this`
+		// defined by the Person() constructor.
+		this.age++;
+	}, 1000);
+}
+var p = new Person();
+							</code>
+						</pre>
+					</section>
+
+
+					<section>
+						<p>
+							TODO
+						</p>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+function Person() {
+	var self = this;
+	// Some choose `that` instead of `self`.
+	// Choose one and be consistent.
+ 	self.age = 0;
+
+	setInterval(function growUp() {
+		// The callback refers to the `self` variable of which
+		// the value is the expected object.
+		self.age++;
+	}, 1000);
+}
+var p = new Person()
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>
+							With arrow functions and lexical binding of <i>this</i>, the problem can be solved like this:
+						</p>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+function Person(){
+	this.age = 0;
+
+	setInterval(() => {
+		this.age++; // |this| properly refers to the person object
+	}, 1000);
+}
+							</code>
+						</pre>
+					</section>
+
+					<section>
+						<h2>References</h2>
+						<ul>
+							<li><a href="http://spin.atomicobject.com/2014/10/20/javascript-scope-closures/">Javascript scope</a></li>
+							<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Arrow functions</a></li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h1>Destructuring</h1>
+						<p>
+							let {a,b} = obj;
+						</p>
+					</section>
+					<section>
+						<h2>Array destructing</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+let foo = ["one", "two", "three"];
+
+// without destructuring
+let one   = foo[0];
+let two   = foo[1];
+let three = foo[2];
+
+// with destructuring
+let [one, two, three] = foo;
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Object destructuring</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+let o = {p: 42, q: true};
+let {p, q} = o;
+							</code>
+						</pre>
+						<p>It is also possible to give the new variable a new name by using:</p>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+								let {p:age, q}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Object destructuring</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+var metadata = {
+	title: "Scratchpad",
+	translations: [
+		{
+			locale: "de",
+			localization_tags: [ ],
+			last_edit: "2014-04-14T08:43:37",
+			url: "/de/docs/Tools/Scratchpad",
+			title: "JavaScript-Umgebung"
+		}
+	],
+	url: "/en-US/docs/Tools/Scratchpad"
+};
+
+let { title: englishTitle, translations: [{ title: localeTitle }] } = metadata;
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>What else?</h2>
+						It is also possible to:
+						<ul>
+							<li>
+								Swap variables:
+								<pre>
+									<code class="hjls" data-trim contenteditable>
+										[a, b] = [b, a];
+									</code>
+								</pre>
+							</li>
+							<li>
+								Ignore returned values:
+								<pre>
+									<code class="hjls" data-trim contenteditable>
+										var [a, , b] = f();
+									</code>
+								</pre>
+							</li>
+							<li>
+								Use destructuring in loops
+								<pre>
+									<code class="hjls" data-trim contenteditable>
+										for (var {name: n, family: { father: f } } of people) {...}
+									</code>
+								</pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>References</h2>
+						<ul>
+							<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">Destructuring assignment</a></li>
+						</ul>
+					</section>
 				</section>
 
 				<section>
