@@ -59,9 +59,120 @@
 					<section>
 						<h2>Benefits</h2>
 						<p>
-
+							No more global namespace pollution.
 						</p>
 					</section>
+
+					<section>
+						<h2>Defaults</h2>
+						<p>There is exactly one module per file and one file per module.</p>
+						<p>By default anything you declare in a file is not available outside that file (awesome).</p>
+					</section>
+
+					<section>
+						<h2>Named exports</h2>
+						<p>A module can export multiple things by prefixing its declarations with the keyword export:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+export var myVar1 = ...;
+export let myVar2 = ...;
+export const MY_CONST = ...;
+export function myFunc() {}
+export class MyClass {}
+					</code></pre>
+						<p>These exports are distinguished by their names and are called named exports.</p>
+					<pre><code class="hljs" data-trim contenteditable>
+import { myFunc, myVar1 } from 'lib';
+myFunc();
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Named exports</h2>
+						<p>You can also list everything you want to export at the end of the module (which is once again similar in style to the revealing module pattern):</p>
+						<pre><code class="hljs" data-trim contenteditable>
+const MY_CONST = ...;
+function myFunc() {}
+export { MY_CONST, myFunc };
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>import the whole module</h2>
+						<p>You can also import the complete module using a wildcard:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+import * as lib from 'lib';
+lib.myFunc();
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Single default export</h2>
+						<p>If you want to export a single value from the module then you can use default export. </p>
+						<p>For example, a class:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+export default class {}
+					</code></pre>
+						<p>And import like this (omit the curly braces):</p>
+						<pre><code class="hljs" data-trim contenteditable>
+import MyClass from 'MyClass';
+var instance = new MyClass();
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Mixture</h2>
+						<p>Module can have both named exports and a default export.</p>
+						<p>In such cases, to import a module's default export, you have to omit the curly braces in the import statement:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+import myDefault, { foo, bar } from 'lib';
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Best practise?</h2>
+						<p> Only use <b>export default</b>, and to do that at the end of your module files. Like this:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+var api = {
+  foo: 'bar',
+  baz: 'ponyfoo'
+}
+export default api
+					</code></pre>
+						<p>Easy then to import the whole thing like this:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+import api from 'api';
+api.foo; // bar
+					</code></pre>
+					</section>
+
+					<section>
+					<h2>Code task 1 - export two named functions</h2>
+						<p>In `src/00-modules/named.js´ create and export two named functions:</p>
+						<ul>
+							<li>
+								sum(x,y) - A function that add two numbers
+							</li>
+							<li>
+								multiply(x,y) - A function that multiply two numbers
+							</li>
+						</ul>
+					</section>
+
+					<section>
+					<h2>Code task 2 - export two functions by default</h2>
+						<p>In `src/00-modules/default.js` import the two functions created in the previous task, then export them again, but as single default export. </p>
+					</section>
+
+					<section>
+						<h2>Export Syntax</h2>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export</a>
+					</section>
+
+					<section>
+						<h2>Import Syntax</h2>
+						<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import</a>
+					</section>
+
 				</section>
 
 				<section>
@@ -181,11 +292,17 @@ instance1 instanceof MyClass; // true
 					</section>
 
 					<section>
+						<h2>Inherited properties and own properties</h2>
+						<p>The own properties are properties that were defined on the instance,
+							while the inherited properties were inherited from the Function’s Prototype object.</p>
+					</section>
+
+					<section>
 					<h2>Functions have a prototype</h2>
 					<p>When you define a function within JavaScript, it comes with a few pre-defined properties and one of these is the illusive prototype.</p>
 					<p>
 						(1) Initially an empty object. (2) You can add methods and properties on a function’s prototype property
-to make those methods and properties available to instances of that function. All class instances, past and future, will be affected.
+to make those methods and properties <b>available</b> to instances of that function. All class instances, past and future, will be affected.
 					</p>
 				    </section>
 
