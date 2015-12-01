@@ -884,6 +884,158 @@ let { title: englishTitle, translations: [{ title: localeTitle }] } = metadata;
 					</section>
 				</section>
 
+
+				<section>
+					<section>
+						<h1>Generators</h1>
+					</section>
+					<section>
+						<h2>What?</h2>
+						<ul>
+							<li>function*, yield, yield*</li>
+							<li>Looks like normal function + keywords</li>
+							<li>Is a type of iterator</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Gang of Three</h2>
+						<ul>
+							<li>Iterators</li>
+							<li>Observers</li>
+							<li>Co-routines</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Iterators</h2>
+						<ul>
+							<li>yield data;</li>
+							<li>Iterable (for let v of vals)</li>
+							<li>No initialization</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+var help = function* helpiterable() {
+    yield 100;
+}
+
+function* myiterable() {
+    while(true) {   
+        yield 1;
+        yield 2;
+        for(var i=0;i<10;i++) {
+            yield i*2;
+        }
+        yield* [1,2,3];
+        yield* help();
+        yield; // yield undefined;
+    }
+    return 0;
+    // if return is not added, then it is implicit as return undefined;
+}
+
+							</code></pre></li>
+						</ul>
+						
+					</section>
+					<section>
+						<h2>Observers</h2>
+						<ul>
+							<li>var data = yield;</li>
+							<li>var data = (yield)++;</li>
+							<li>Requires initialization (to start observer)</li>
+							<li>Pauses until input is received</li>
+							<li>Can wrap to avoid explicit initialization</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+function* myobserver() {
+    console.log(yield);
+}
+
+var miobserver = myobserver();
+miobserver.next(); // initialize
+miobserver.next("test"); // writes "test" to console
+
+							</code></pre></li>
+						</ul>
+						
+					</section>
+					<section>
+						<h2>Co-routines</h2>
+						<ul>
+							<li>Produces AND consumes data</li>
+							<li>Complex</li>
+							<li>Avoid unless absolutely needed</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+function* mycoroutine() {
+    yield 1; // A
+    console.log(yield); // B
+    console.log(yield); // C
+}
+
+var micoroutine = mycoroutine();
+var i = micoroutine.next(); // initialize // A, and pauses at A
+micoroutine.next(); // goes to B, and pauses, waits for data
+micoroutine.next("test"); // writes "test" to console and continues until next yield, pauses // B->C
+micoroutine.next("test2"); // writes "test" to console goes to invisible return // B->C
+console.log(micoroutine.next()); // returns "undefined" from return undefined; exits generator
+
+							</code></pre></li>
+						</ul>
+						
+					</section>
+					<section>
+						<h2>Why? Usage!</h2>
+						<ul>
+							<li>As iterator</li>							
+							<li>Lazy evaluation</li>
+							<li>Less memory consumption</li>
+							<li>Less latency</li>
+							<li>Avoid callback-hell</li>
+							<li>More fluent (synchronized)</li>
+							<li>Chain generators UNIX way</li>
+							<li>Infinite collection</li>
+					</ul>
+					</section>
+					<section>
+						<h2>Finally</h2>
+						<ul>
+							<li>yield pauses/suspends the generator</li>
+							<li>next() or next(data) to resume</li>
+							<li>Generator continues from exactly where it paused</li>
+							<li>yield resumes execution until explicit or implicit yield, return, throw</li>
+							<li>Generator is initially suspended at start of its body</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+function* producer() {
+        console.log('1');
+        yield; // (A)
+        console.log('2'); // (B)
+    }
+let myProducer = producer(); // nothing happens, generator object is returned
+myProducer.next(); // will pause on yield on (A)
+myProducer.next(); // will continue, and execute (B). Generator is done.
+
+							</code></pre></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Tips</h2>
+						<ul>
+							<li>Usually loops within generator to continue "infinitely"</li>
+							<li>No return = implicit return undefined</li>
+							<li>Return value is ignored when used as iterable</li>
+							<li>yield yields an object with properties value and done</li>
+							<li>Recursive call with yield*</li>
+							<li>Not possible to yield inside callback</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Resources</h2>
+						<ul>
+							<li>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/</li>
+							<li>Look for: iterator, generator, function*, yield, yield*</li>
+							<li>http://www.2ality.com/2015/03/es6-generators.html</li>
+							<li>http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators</li>
+							<li>http://tobyho.com/2013/06/16/what-are-generators/</li>
+						</ul>
+					</section>
+				</section>
 				<section>
 					<h2>Slides</h2>
 					<p>
