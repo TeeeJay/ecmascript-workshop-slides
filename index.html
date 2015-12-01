@@ -495,6 +495,8 @@ for (let item of ITERABLE) {
 						<h2>Iterable</h2>
 						<p>
 							Iterable is an object which has [Symbol.iterator]() method inside.
+						</p>
+						<p>
 							The [Symbol.iterator] method must return an iterator object,
 							which is actually responsible for the iteration logic.
 						</p>
@@ -505,6 +507,21 @@ for (let item of ITERABLE) {
 						<p>
 							An iterator is an object with a next method that returns { done, value } tuples.
 						</p>
+					</section>
+
+					<section>
+						<h2>Arrays are iterable by default</h2>
+						<p>We finally can use for-of for looping over the elements:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+const arr = [1, 2, 3, 4, 5];
+for (let item of arr) {
+  console.log(item); // 1
+                     // 2
+                     // 3
+                     // 4
+                     // 5
+}
+					</code></pre>
 					</section>
 
 					<section>
@@ -530,18 +547,8 @@ console.log(obj); // Object { Symbol(abc): 'abc' }
 					</section>
 
 					<section>
-						<h2>Arrays are iterable by default</h2>
-						<p>We finally can use for-of for looping over the elements:</p>
-						<pre><code class="hljs" data-trim contenteditable>
-const arr = [1, 2, 3, 4, 5];
-for (let item of arr) {
-  console.log(item); // 1
-                     // 2
-                     // 3
-                     // 4
-                     // 5
-}
-					</code></pre>
+						<h2>Symbol.iterator</h2>
+						<p>The Symbol.iterator well-known symbol specifies the default iterator for an object.</p>
 					</section>
 
 					<section>
