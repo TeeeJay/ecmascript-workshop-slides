@@ -883,138 +883,139 @@ let { title: englishTitle, translations: [{ title: localeTitle }] } = metadata;
 						<h1>Generators</h1>
 					</section>
 					<section>
-						<h2>Why?</h2>
+						<h2>What?</h2>
 						<ul>
-							<li>+Lazy evaluation</li>
-							<li>+Less memory consumption</li>
-							<li>+Save State</li>
-							<li>+More fluent</li>
-							<li>-But, may be more inefficient than loop</li>
+							<li>function*, yield, yield*</li>
+							<li>Looks like normal function + keywords</li>
+							<li>Is a type of iterator</li>
 						</ul>
 					</section>
 					<section>
-						<h2>When?</h2>
+						<h2>Gang of Three</h2>
 						<ul>
-							<li>Loop through big collection (and only need a few)</li>
-							<li>To allocate less memory than a full collection</li>
-							<li>Instead of callbacks</li>
-							<li>Report immediately</li>
-							<li>Less latency</li>
-							<li>Generate a list of values</li>
-							<li>Infinite collection</li>
-							<li>Random number generator...</li>
-							<li>...and can be used as an iterator</li>
+							<li>Iterators</li>
+							<li>Observers</li>
+							<li>Co-routines</li>
 						</ul>
 					</section>
 					<section>
-						<h2>Not When</h2>
+						<h2>Iterators</h2>
 						<ul>
-							<li>We need to know the size of the collection</li>
-							<li>Other performance aspects</li>
-						</ul>
-					</section>
-					<section>
-						<p>
-						"Generators provide a powerful alternative: they allow you to define an iterative algorithm by writing a single function which can maintain its own state."
-						</p>
-					</section>
-					<section>
-						<h2>A generator is...</h2>
-						<ul>
-							<li>A common pattern, and used in "all" languages</li>
-							<li>Think of the random number generator.</li>
-							<li>Looks like a function, but behaves like an iterator</li>
-							<li>Also language construct in e.g. Python</li>
-							<li>Language construct to avoid boilerplate class</li>
-						</ul>
-					</section>
+							<li>yield data;</li>
+							<li>Iterable (for let v of vals)</li>
+							<li>No initialization</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+var help = function* helpiterable() {
+    yield 100;
+}
 
-					<section>
-						<h2>Java...</h2>
-						<pre><code class="hljava" data-trim contenteditable>
-						Random random = new Random(seed);
-int n = random.nextInt(100);
-						</code></pre>
-					</section>
-					<section>
-						<h2>return</h2>
-						<ul>
-							<li>Statement</li>
-							<li>Return exection to caller, and leave function context</li>
-							<li>Function halts</li>
-							<li><pre><code class="hljs" data-trim contenteditable>
-func blackbox_advanced_computation_generate_numbers() {
-	my_list = []
-	for i in n:
-		my_list.add(i)
-	return my_list
+function* myiterable() {
+    while(true) {   
+        yield 1;
+        yield 2;
+        for(var i=0;i<10;i++) {
+            yield i*2;
+        }
+        yield* [1,2,3];
+        yield* help();
+        yield; // yield undefined;
+    }
+    return 0;
+    // if return is not added, then it is implicit as return undefined;
 }
+
 							</code></pre></li>
-							<li>Need to wait until whole list has been generated</li>
 						</ul>
+						
 					</section>
 					<section>
-						<h2>yield</h2>
+						<h2>Observers</h2>
 						<ul>
-							<li>Expression!</li>
-							<li>Can only be used in function of type generator</li>
-							<li>Function halts</li>
+							<li>var data = yield;</li>
+							<li>var data = (yield)++;</li>
+							<li>Requires initialization (to start observer)</li>
+							<li>Pauses until input is received</li>
+							<li>Can wrap to avoid explicit initialization</li>
 							<li><pre><code class="hljs" data-trim contenteditable>
-function *generator(seed) {
-	var i = 0;
-	while (true) {
-		yield i++;
-	}
+function* myobserver() {
+    console.log(yield);
 }
+
+var miobserver = myobserver();
+miobserver.next(); // initialize
+miobserver.next("test"); // writes "test" to console
+
 							</code></pre></li>
-							<li><pre><code class="hljs" data-trim contenteditable>
-mygenerator = generator(0)
-for i in mygenerator:
-	print i
-							</code></pre></li>
-							<li>Returned to caller immediately before yield (after)</li>
 						</ul>
+						
 					</section>
 					<section>
-						<h2>yield as an expression</h2>
+						<h2>Co-routines</h2>
 						<ul>
-							<li><pre><code class="hljs" contenteditable>
-function *consumer() {
-	while(true) {
-		var i = (yield);
-		print i;
-	}
+							<li>Produces AND consumes data</li>
+							<li>Complex</li>
+							<li>Avoid unless absolutely needed</li>
+							<li><pre><code class="hljs" data-trim contenteditable>
+function* mycoroutine() {
+    yield 1; // A
+    console.log(yield); // B
+    console.log(yield); // C
 }
+
+var micoroutine = mycoroutine();
+var i = micoroutine.next(); // initialize // A, and pauses at A
+micoroutine.next(); // goes to B, and pauses, waits for data
+micoroutine.next("test"); // writes "test" to console and continues until next yield, pauses // B->C
+micoroutine.next("test2"); // writes "test" to console goes to invisible return // B->C
+console.log(micoroutine.next()); // returns "undefined" from return undefined; exits generator
+
 							</code></pre></li>
+						</ul>
+						
+					</section>
+					<section>
+						<h2>Why? Usage!</h2>
+						<ul>
+							<li>As iterator</li>							
+							<li>Lazy evaluation</li>
+							<li>Less memory consumption</li>
+							<li>Less latency</li>
+							<li>Avoid callback-hell</li>
+							<li>More fluent (synchronized)</li>
+							<li>Chain generators UNIX way</li>
+							<li>Infinite collection</li>
+					</ul>
+					</section>
+					<section>
+						<h2>Finally</h2>
+						<ul>
+							<li>yield pauses/suspends the generator</li>
+							<li>next() or next(data) to resume</li>
+							<li>Generator continues from exactly where it paused</li>
+							<li>yield resumes execution until explicit or implicit yield, return, throw</li>
+							<li>Generator is initially suspended at start of its body</li>
 							<li><pre><code class="hljs" data-trim contenteditable>
-var myConsumer = consumer();
-// initialize
-consumer.next();
-consumer.next(1);
-// will print "1"
+function* producer() {
+        console.log('1');
+        yield; // (A)
+        console.log('2'); // (B)
+    }
+let myProducer = producer(); // nothing happens, generator object is returned
+myProducer.next(); // will pause on yield on (A)
+myProducer.next(); // will continue, and execute (B). Generator is done.
+
 							</code></pre></li>
-							<li>Receives data!</li>
 						</ul>
 					</section>
 					<section>
-						<h2>Pipe</h2>
+						<h2>Tips</h2>
 						<ul>
-							<li>Can use this to pipe data between functions</li>
-							<li>No more callback hell?</li>
-							<li>cat mytext.txt | grep "lorem" | wc -l | echo</li>
-							<li>producers and consumers</li>
-						</ul>
-					</section>
-					<section>
-						<h2>Details</h2>
-						<ul>
-							<li>Loop function as an iterator: for...of</li>
-							<li>yield* to delegate responsability (also to iterate through array, string)</li>
-							<li>Can also return on: return, throw.</li>
-							<li>Can have many yield in same generator</li>
-							<li>Common that generators loop, otherwise you have to "restart" them</li>
-							<li>Consumers need to be restarted</li>
-							<li>Yield object, not value. with properties done=true|false and value</li>
+							<li>Usually loops within generator to continue "infinitely"</li>
+							<li>No return = implicit return undefined</li>
+							<li>Return value is ignored when used as iterable</li>
+							<li>yield yields an object with properties value and done</li>
+							<li>Recursive call with yield*</li>
+							<li>Not possible to yield inside callback</li>
 						</ul>
 					</section>
 					<section>
@@ -1027,8 +1028,6 @@ consumer.next(1);
 							<li>http://tobyho.com/2013/06/16/what-are-generators/</li>
 						</ul>
 					</section>
-
-
 				</section>
 				<section>
 					<h2>Slides</h2>
