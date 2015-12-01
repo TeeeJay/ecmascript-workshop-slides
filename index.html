@@ -1043,6 +1043,281 @@ myProducer.next(); // will continue, and execute (B). Generator is done.
 					</section>
 				</section>
 				<section>
+					<section>
+						<h1>Template strings</h1>
+						<p>
+							`Unleash the power of backticks`
+                        </p>
+					</section>
+					<section>
+						<h2>Embedded expressions</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// The good oldfashioned way
+var a = 5;
+var b = 10;
+console.log('The sum of ' + a + ' and ' + b + ' is ' + (a + b));
+
+// With template strings
+console.log(`The sum of ${a} and ${b} is ${a + b}`);
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Multi-line</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// The good oldfashioned way
+console.log('Thank you Mario!\n' + 
+    'But our princess is in another castle.');
+
+// With template strings
+console.log(`Thank you Mario!
+But our princess is in another castle.`);
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Tagged template strings</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+var a = 5;
+var b = 10;
+
+function tag(strings, value1, value2) {
+    console.log(strings[0]); // 'Hello '
+    console.log(strings[1]); // ' world '
+    console.log(value1);     // 15
+    console.log(value2);     // 50
+
+    return 'Foo!';
+}
+
+tag`Hello ${ a + b } world ${ a * b }`;
+// 'Foo!'
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>References</h2>
+                        <li><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings">Template Strings on Mozilla Developer Network</a></li>
+                    </section>
+					<section>
+                        <h2>Code tasks</h2>
+                        <h3>1. Variable substitution</h3>
+						<p>
+                            In `src/04-template-strings/01-variable-substitution.js´ change 
+                            the log() method to use embedded expressions instead of concatenated strings.
+                        </p>
+                        <h3>2. Multi-line strings</h3>
+						<p>
+                            In `src/04-template-strings/02-multiline-strings.js´, remove all string 
+                            concatenations and '\n' characters, and use a multi-line string with embedded 
+                            expressions instead.
+                        </p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Maps and Sets</h1>
+						<p>
+							New data structures
+                        </p>
+					</section>
+					<section>
+                        <h2>Traditional key-value pairs</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+var capitals = {
+    'Norway': 'Oslo',
+    'Sweden': 'Stockholm'
+};
+capitals['Denmark'] = 'Copenhagen';
+
+console.log(capitals['Sweden']); 
+// 'Stockholm'
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Some problems</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Iteration is a bit awkward
+Object.keys(capitals).map(key => {
+    console.log('The capital of ' + key + ' is ' + capitals[key]);
+});
+
+// The easiest way to get the size is
+var size = Object.keys(capitals).length;
+
+// Keys can only be represented as strings
+capitals[1] = 'London';    // 1 is converted to '1'
+capitals[true] = 'Berlin'; // true is converted to 'true'
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Introducing Map</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Initialize the map
+var map = new Map();
+
+// Add entry with key 'Norway' and value 'Oslo'
+map.set('Norway', 'Oslo');
+
+// Keys can be any data type, object, or even a function
+var keyString = "a string",
+    keyObj = {},
+    keyFunc = function () {};
+
+map.set(keyString, 'value');
+map.set(keyObj, 'value');
+map.set(keyFunc, 'value');
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Iteration and size</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Iteration is a bit cleaner
+for (let [country, capital] of capitals) {
+    console.log('The capital of ' + country + ' is ' + capital);
+}
+
+// Getting the size is easy
+var size = capitals.size;
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Signs that you should be using Map instead of object</h2>
+                        <ul>
+                            <li>Keys are not known until run time</li>
+                            <li>You frequently need to add/remove key-value pairs</li>
+                            <li>You need to use keys that are not strings</li>
+                            <li>You want to iterate the collection</li>
+                        </ul>
+					</section>
+					<section>
+                        <h2>Set introduction</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Initialize the set
+var set = new Set();
+
+// Add value
+set.add('Norway');
+
+// No duplicate values
+set.add('Norway'); // has no effect
+
+// Values can be any data type, object, or a function
+var obj = {},
+    func = function () {};
+
+set.add(obj);
+set.add(func);
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Set operations</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Simple iteration
+for (let value of set) {
+    console.log(value);
+}
+
+// Get size
+var size = set.size;
+
+// Check if value exists
+var exists = set.has('Norway');
+
+// Delete
+set.delete('Norway');
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>WeakMap</h2>
+                        <ul>
+                            <li>Similar to Map, but keys are weakly referenced</li>
+                            <li>Allows keys to be garbage collected</li>
+                            <li>Only objects can be used as keys</li>
+                            <li>Not possible to iterate, list keys, or get size</li>
+                        </ul>
+					</section>
+					<section>
+                        <h2>WeakMap usage</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+let map = new WeakMap();
+
+let apple = { id: 1, name: 'Apple' };
+map.set(apple, 3);
+map.get(apple); // 3
+
+// Will not be kept in the map, as no one else is holding a 
+// reference to the key
+map.set({ id: 2, name: 'Orange' }, 5); 
+
+// Will be held in the map until the element with id 'example' 
+// is removed from DOM
+map.set(document.getElementById('example'), { clickCount: 4 });
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>WeakSet</h2>
+                        <ul>
+                            <li>Similar to Set, but values are weakly referenced</li>
+                            <li>Allows values to be garbage collected</li>
+                            <li>Only objects can be used as keys</li>
+                            <li>Not possible to iterate, list values, or get size</li>
+                        </ul>
+					</section>
+					<section>
+                        <h2>Example use case for WeakSet</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// Simple tagging of DOM elements that have been touched/edited.
+// When elements are removed from DOM, the garbage collector
+// will automatically remove them from the Set.
+
+var touchedElements = new WeakSet();
+
+function addTouched(domElement) {
+    touchedElements.add(domElement);
+}
+
+function hasBeenTouched(domElement) {
+    return touchedElements.has(domElement);
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+                        <h2>Code tasks</h2>
+                        <h3>1. Map</h3>
+						<p>
+                            In `src/07-maps-and-sets/01-map.js´, rewrite carMap to be a Map, and modify 
+                            the functions so that they work with the Map data structure.
+                        </p>
+                        <h3>2. Set</h3>
+						<p>
+                            In `src/07-maps-and-sets/02-set.js´, change getUniqueActors() to use a 
+                            Set in order to return a unique array of actors.
+                        </p>
+					</section>
+                </sections>
+
+				<section>
 					<h2>Slides</h2>
 					<p>
 						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
