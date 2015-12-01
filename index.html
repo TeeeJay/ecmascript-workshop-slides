@@ -165,7 +165,7 @@ api.foo; // bar
 
 					<section>
 					<h2>Code task 2 - export two functions by default</h2>
-						<p>In `src/00-modules/default.js` import the two functions created in the previous task, then export them again, but as single default export. </p>
+						<p>In `src/00-modules/default.js` import the two functions created in the previous task, then export them again, but as a single default export. </p>
 					</section>
 
 					<section>
@@ -467,6 +467,125 @@ module.exports = ColorPoint;
 							<li><a href="https://www.nczonline.net/blog/2012/10/16/does-javascript-need-classes">https://www.nczonline.net/blog/2012/10/16/does-javascript-need-classes</a></li>
 							<li><a href="http://exploringjs.com/es6/ch_classes.html">http://exploringjs.com/es6/ch_classes.html</a></li>
 							<li><a href="https://www.reinteractive.net/posts/235-es6-classes-and-javascript-prototypes">https://www.reinteractive.net/posts/235-es6-classes-and-javascript-prototypes</a></li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h1>Iterator and iterable</h1>
+					</section>
+
+					<section>
+						<h2>for-of-loop</h2>
+						<p>ES6 has a new loop — for-of. It works with iterables. Let’s look at his signature:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+for (let item of ITERABLE) {
+  CODE BLOCK
+}
+					</code></pre>
+						<p>
+							It’s similar to for-in loop, which can be used to iterate through object properties.
+						</p>
+					</section>
+
+					<section>
+						<h2>Iterable</h2>
+						<p>
+							Iterable is an object which has [Symbol.iterator]() method inside.
+							The [Symbol.iterator] method must return an iterator object,
+							which is actually responsible for the iteration logic.
+						</p>
+					</section>
+
+					<section>
+						<h2>Iterator</h2>
+						<p>
+							An iterator is an object with a next method that returns { done, value } tuples.
+						</p>
+					</section>
+
+					<section>
+						<h2>Symbol</h2>
+						<p>
+							Symbol is in turn an unique and immutable data type which can be used
+							as an identifier for object properties — no equivalent in ES5.
+						</p>
+					</section>
+
+					<section>
+						<h2>Symbol</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+// Symbol
+let s1 = Symbol('abc');
+let s2 = Symbol('abc');
+console.log(s1 !== s2); // true
+console.log(typeof s1); // 'symbol'
+let obj = {};
+obj[s1] = 'abc';
+console.log(obj); // Object { Symbol(abc): 'abc' }
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Arrays are iterable by default</h2>
+						<p>We finally can use for-of for looping over the elements:</p>
+						<pre><code class="hljs" data-trim contenteditable>
+const arr = [1, 2, 3, 4, 5];
+for (let item of arr) {
+  console.log(item); // 1
+                     // 2
+                     // 3
+                     // 4
+                     // 5
+}
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>Encapsulating collections</h2>
+						<pre><code class="hljs" data-trim contenteditable>
+class Classroom {
+    constructor() {
+        this.students = ["Tim", "Joy", "Sue"];
+    }
+}
+					</code></pre>
+						<p>Option 1: Return a reference to the  array, in which case the caller might change the array by adding or removing items.</p>
+						<p>Option 2: Another option is to make a copy of the array. Then, the original student array remains safe. However, copy operations can be expensive.</p>
+						<p>Option 3: Make the classroom iterable by adding a [Symbol.iterator]() method.</p>
+					</section>
+
+					<section>
+					<pre><code class="hljs" data-trim contenteditable>
+function PointCloud(list) {
+    this.collection = list;
+}
+PointCloud.prototype[Symbol.iterator] = function() {
+    var index = 0;
+    var array = this.collection;
+    return {
+        next: () => {
+            var result = { value: undefined, done: true };
+            if (index < array.length) {
+                result.value = array[index++];
+                result.done = false;
+            }
+            return result;
+        }
+    };
+};
+module.exports = PointCloud;
+					</code></pre>
+					</section>
+
+					<section>
+						<h2>References</h2>
+						<ul>
+							<li>
+								https://medium.com/ecmascript-2015/es6-iterators-4afec026f70a#.6wfbn4xnc
+							</li>
 						</ul>
 					</section>
 
