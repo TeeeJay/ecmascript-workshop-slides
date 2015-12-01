@@ -486,10 +486,17 @@ module.exports = ColorPoint;
 									<li>Shorter syntax than using traditional anonymous functions</li>
 								</ul>
 							</li>
-							<li>Lexically binds the <i>this</i> value</li>
+							<li>Lexically binds the <i>this</i> value
+								<ul>
+									<li>Which is where arrow functions shine</li>
+								</ul>
+							</li>
 						</ul>
 					</section>
 					<section>
+						<p>
+							A quick overview of the syntax:
+						</p>
 						<pre>
 							<code class="hjls" data-trim contenteditable>
 // Basic syntax:
@@ -507,6 +514,9 @@ singleParam => { statements }
 						</pre>
 					</section>
 					<section>
+						<p>
+							Another example:
+						</p>
 						<pre>
 							<code class="hjls" data-trim contenteditable>
 function(x) { return x+1;}
@@ -516,6 +526,9 @@ x => x+1;
 						</pre>
 					</section>
 					<section>
+						<p>
+							Here a2 is using traditional anonymous functions while a3 is using the arrow function syntax.
+						</p>
 						<pre>
 							<code class="hjls" data-trim contenteditable>
 var a = ["Hydrogen", "Helium", "Lithium", "Beryl­lium"];
@@ -538,8 +551,7 @@ var a3 = a.map( s => s.length );
 									<li>Like Python, Java ..</li>
 								</ul>
 							</li>
-							<li>Functional scope: var (pre ECMAScript 2015)</li>
-							<li>Block scope: var (pre ECMAScript 2015)</li>
+							<li>Block scope: let (pre ECMAScript 2015)</li>
 						</ul>
 						<pre>
 							<code class="hjls" data-trim contenteditable>
@@ -557,11 +569,31 @@ foo( 2 ); // 2 4 12
 						</pre>
 					</section>
 					<section>
-						<p>
-							TODO
-						</p>
-						<pre>
-							<code class="hjls" data-trim contenteditable>
+						<ul>
+							<li>Every new function defines a new this. </li>
+							<li>
+								Object methods gets the context of the object.
+								<pre>
+									<code class="hjls" data-trim contenteditable>
+function person(firstName, lastName, age, eyeColor) {
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.changeName = function (name) {
+    	this.lastName = name;
+    };
+}
+									</code>
+								</pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li>
+								When calling a function (not an object method) the this of the object is not reachable.
+							</li>
+							<pre>
+								<code class="hjls" data-trim contenteditable>
 function Person() {
 	// The Person() constructor defines `this` as an instance of itself.
 	this.age = 0;
@@ -574,14 +606,13 @@ function Person() {
 	}, 1000);
 }
 var p = new Person();
-							</code>
-						</pre>
+								</code>
+							</pre>
+						</ul>
 					</section>
-
-
 					<section>
 						<p>
-							TODO
+							That can be solved like this:
 						</p>
 						<pre>
 							<code class="hjls" data-trim contenteditable>
