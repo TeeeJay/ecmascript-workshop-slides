@@ -1043,6 +1043,91 @@ myProducer.next(); // will continue, and execute (B). Generator is done.
 					</section>
 				</section>
 				<section>
+					<section>
+						<h1>Template strings</h1>
+						<p>
+							`Unleash the power of backticks`
+                        </p>
+					</section>
+					<section>
+						<h2>Expression interpolation</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// The good oldfashioned way
+var a = 5;
+var b = 10;
+console.log('The sum of ' + a + ' and ' + b + ' is ' + (a + b));
+
+// With template strings
+console.log(`The sum of ${a} and ${b} is ${a + b}`);
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Multi-line</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+// The good oldfashioned way
+console.log('Thank you Mario!\n' + 
+    'But our princess is in another castle.');
+
+// With template strings
+console.log(`Thank you Mario!
+But our princess is in another castle.`);
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Tagged template strings</h2>
+						<pre>
+							<code class="hjls" data-trim contenteditable>
+var a = 5;
+var b = 10;
+
+function tag(strings, value1, value2) {
+    console.log(strings[0]); // 'Hello '
+    console.log(strings[1]); // ' world '
+    console.log(value1);     // 15
+    console.log(value2);     // 50
+
+    return 'Foo!';
+}
+
+tag`Hello ${ a + b } world ${ a * b }`;
+// 'Foo!'
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>References</h2>
+                        <li><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/template_strings">Template Strings on Mozilla Developer Network</a></li>
+                    </section>
+					<section>
+                        <h2>Code tasks</h2>
+                        <h3>1. Variable substitution</h3>
+						<p>
+                            In `src/04-template-strings/01-variable-substitution.js´ change 
+                            the log() method to use embedded expressions instead of concatenated strings.
+                        </p>
+                        <h3>2. Multi-line strings</h3>
+						<p>
+                            In `src/04-template-strings/02-multiline-strings.js´, remove all string 
+                            concatenations and '\n' characters, and use a multi-line string with embedded 
+                            expressions instead.
+                        </p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Template strings</h1>
+						<p>
+							`Unleash the power of backticks`
+                        </p>
+					</section>
+                </sections>
+
+				<section>
 					<h2>Slides</h2>
 					<p>
 						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
