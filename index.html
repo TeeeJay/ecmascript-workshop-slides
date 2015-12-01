@@ -441,7 +441,7 @@ module.exports = Point;
 // Child class constructor
 var ColorPoint = function (x, y, color) {
     Point.call(this, x, y);
-    this.color = color;
+    this.color = color || 'red';
 };
 
 // Inherit from the parent class
