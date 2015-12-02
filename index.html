@@ -360,8 +360,11 @@ car.__proto__ = vehicle
 
 					<section>
 						<h2>Functions vs objects prototype</h2>
-						<p>An object’s prototype is the object from which it is inheriting properties. </p>
 						<p>A function’s prototype is used as the object to be assigned as the prototype for new objects’ created using this function as a constructor function.</p>
+						<pre><code class="hljs" data-trim contenteditable>
+instance.__proto__ = Function.prototype
+					</code></pre>
+						<p>An object’s prototype is the object from which it is inheriting properties. </p>
 					</section>
 
 					<!--
