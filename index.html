@@ -62,6 +62,8 @@
 				<section>
 					<h2>Today</h2>
 					<ul>
+						<li>Variables & scope</li>
+						<li>Promises</li>
 						<li>Modules</li>
 						<li>Classes</li>
 						<li>Iterator & iterable</li>
@@ -73,6 +75,126 @@
 					</ul>
 				</section>
 
+				<section>
+					<section>
+						<h1>Variables & scope</h1>
+					</section>
+					<section>
+						<h2>Spoiler alert!</h2>
+						<p>
+							Variables are so much more fun in ES6 - not! But they are a lot nicer(les:more predictible) to hang out with than the old var chap of ES5!
+						</p>
+					</section>
+					<section>
+						<h2>let & const</h2>
+						<p>
+							- ES6 brings two new ways to declare variables: let and const<br>
+ 							- These basically replace, the ES5 way of declaring variables, using var<br>
+ 							- However, var is still around<br>
+						</p>
+
+
+					</section>
+					<section>
+						<h2>let</h2>
+						<p>Here is an example where the let declared variable tmp, only exists within the block starting in line A:	</p>
+						<pre>
+							<code class="hljs" data-trim contenteditable>
+function switch(x, y) {
+if (x > y) { // (A)
+	let tmp = x;
+	x = y;
+	y = tmp;
+}
+console.log(tmp===x); // ReferenceError: tmp is not defined
+return [x, y];
+}
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>const</h2>
+						<p>const is a read-only, initialize at once constant type.
+							Here are a few examples of correct usage and wrong usage leading to SyntaxError and TypeError:</p>
+						<pre>
+							<code class="hljs" data-trim contenteditable>
+const foo;
+    // SyntaxError: missing = in const declaration
+
+const bar = 123;
+bar = 456;
+    // TypeError: `bar` is read-only
+							</code>
+						</pre>
+						</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h1>Promises</h1>
+					</section>
+					<section>
+						<h2>Promises - que?</h2>
+						<p align="left" style="font-size: large">
+							- Promises are a pattern, helping out with one particular kind of asynchronous programming:<br>
+							"a function (or method) that returns its result asynchronously."<br>
+							- To implement such a function, you return a Promise, an object that is a placeholder for the result.<br>
+							- The caller of the function registers callbacks with the Promise to be notified once the result has been computed.<br>
+							- The function sends the result via the Promise.<br>
+<br>
+The de-facto standard for JavaScript Promises is called Promises/A+ [1]. The ECMAScript 6 Promise API follows that standard.
+						</p>
+					</section>
+					<section>
+						<h2>Promises - when to use</h2>
+						<p>
+							A gentle example, to give you a feeling of what working with Promises will be like.
+
+With Node.js-style callbacks, reading a file asynchronously looks like this:
+						</p>
+						<pre>
+							<code class="hljs" data-trim contenteditable>
+fs.readFile('config.json',
+    function (error, text) {
+        if (error) {
+            console.error('Error while reading config file');
+        } else {
+            try {
+                let obj = JSON.parse(text);
+                console.log(JSON.stringify(obj, null, 4));
+            } catch (e) {
+                console.error('Invalid JSON in file');
+            }
+        }
+    });
+							</code>
+						</pre>
+					</section>
+					<section>
+						<h2>Promises applied</h2>
+						<p>With Promises, the same functionality is implemented like this:</p>
+						<pre>
+							<code class="hljs" data-trim contenteditable>
+readFilePromisified('config.json')
+.then(function (text) { // (A)
+    let obj = JSON.parse(text);
+    console.log(JSON.stringify(obj, null, 4));
+})
+.catch(function (reason) { // (B)
+    // File read error or JSON SyntaxError
+    console.error('An error occurred', reason);
+});
+							</code>
+						</pre>
+						<p align="left" style="font-size: large">
+There are still callbacks, but they are provided via methods that are invoked on the result (then() and catch()).
+							The error callback in line B is convenient in two ways:
+							First, it’s a single style of handling errors (versus if (error) and try-catch in the previous example).
+							Second, you can handle the errors of both readFilePromisified() and the callback in line A from a single location.
+						</p>
+					</section>
+				</section>
 				<section>
 					<section>
 						<h1>Modules</h1>
