@@ -316,6 +316,10 @@ instance1 instanceof MyClass; // true
 						<h2>Inherited properties and own properties</h2>
 						<p>The own properties are properties that were defined on the instance,
 							while the inherited properties were inherited from the Function’s Prototype object.</p>
+						<pre><code class="hljs" data-trim contenteditable>
+instance1.hasOwnProperty("id"); // true
+instance1.hasOwnProperty("myMethod"); // false
+					</code></pre>
 					</section>
 
 					<section>
@@ -354,12 +358,13 @@ car.__proto__ = vehicle
 						</p>
 					</section>
 
-					<!--<section>
+					<section>
 						<h2>Functions vs objects prototype</h2>
 						<p>An object’s prototype is the object from which it is inheriting properties. </p>
 						<p>A function’s prototype is used as the object to be assigned as the prototype for new objects’ created using this function as a constructor function.</p>
 					</section>
 
+					<!--
 					<section>
 						<h2>Inherited properties vs. native properties</h2>
 					<pre><code class="hljs" data-trim contenteditable>
